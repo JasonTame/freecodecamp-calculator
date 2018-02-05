@@ -1,2 +1,3 @@
 # freecodecamp-calculator
-Calculator Project for FreeCodeCamp
+
+> Js Calculator project
