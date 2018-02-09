@@ -2,9 +2,13 @@
 <div id="app">
   <div class = "container">
     <h1>Calculator App</h1>
+    <div class = "answerScreen">
+        <p>{{calculation.join(" ")}}</p>
+        <h3>{{answer}}</h3>
+    </div>
     <div class = "calcScreen">
       <h3>{{currNumber}}</h3>
-      <p>{{answer}}</p>
+
     </div>
     <div class = "calcButtons">
       <ul v-for= "option in calcOptions">
@@ -37,12 +41,12 @@ export default {
         {type: 'number', display: 7, value: 7 },
         {type: 'number', display: 8, value: 8 },
         {type: 'number', display: 9, value: 9 },
-        {type: 'number', display: "+", value: null},
+        {type: 'operator', display: "+", value: null},
         {type: 'number', display: 0, value: 0 },
         {type: 'command', display: ".", value: null },
         {type: 'operator', display: "=", value: null },
       ],
-      currNumber: 0
+      currNumber: 0,
     }
   },
   methods: {
@@ -76,16 +80,30 @@ export default {
         case "X":
           this.calculation.push(this.currNumber);
           this.calculation.push("*");
-        case "=":
-          this.calculation.push(this.currNumber);
-          this.answer = eval(this.calculation.join(" "));
-          this.calculation = [];
           break;
+        case "=":
+          //If the number is not odd, then its not a full calculation
+          if(this.calculation % 2 != 0) {
+            this.calculation.push(this.currNumber);
+            this.answer = this.calculation.join(" ") + " = " + eval(this.calculation.join(" "));
+            this.calculation = [];
+            break;
+          }
       }
       this.currNumber = 0;
     },
     runCommand(command) {
+      switch(command) {
+        case "C":
+          this.answer = null;
+          this.calcuation = [];
+          this.currNumber = 0;
+          break;
+        case "+/-":
+          this.currNumber = this.currNumber * -1;
+          break;
 
+      }
     }
   }
 }
@@ -134,7 +152,7 @@ li {
     flex-direction: column;
     min-height: 100vh;
     margin: 0 auto;
-    max-width: 60%;
+    max-width: 30%;
   }
 
 
@@ -148,9 +166,8 @@ li {
 
   .calcButtons button {
     background-color: #22b8cf;
-    height: 150px;
-    margin: 20px;
-    width: 150px;
+    height: 50px;
+    width: 50px;
   }
 
   .calcButtons button:hover {
