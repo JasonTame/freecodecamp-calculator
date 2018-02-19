@@ -126,8 +126,8 @@ export default {
       }
 
       if (!this.decimal) {
-        if (this.currNumber !== "0") {
-          this.currNumber += number;
+        if (this.currNumber != "0") {
+          this.currNumber = this.currNumber + number;
         } else {
           this.currNumber = number;
         }
@@ -159,7 +159,7 @@ export default {
         }
       }
 
-      this.currNumber = "0";
+      this.currNumber = "";
       this.isFloat = false;
       this.operatorSelected = true;
     },
